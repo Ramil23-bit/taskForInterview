@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - logicalFilePath: db/changelog/db.changelog-master.yml
+
+  - include:
+      file: db/changelog/changes/create-table.yml
+
+  - include:
+      file: db/changelog/changes/initial-data.yml
+
+  - changeSet:
+      id: 5
+      author: ramil
+      runOnChange: true
+      rollback:
+        - delete:
+            tableName: user_app
+        - delete:
+            tableName: dishes

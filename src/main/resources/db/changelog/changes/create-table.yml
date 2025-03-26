@@ -1,0 +1,86 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: ramil
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+                tableName: storage
+      changes:
+        - createTable:
+            tableName: user_app
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(20)
+              - column:
+                  name: gender
+                  type: varchar(10)
+              - column:
+                  name: email
+                  type: varchar(50)
+              - column:
+                  name: age
+                  type: bigint
+              - column:
+                  name: weight
+                  type: double
+              - column:
+                  name: height
+                  type: double
+              - column:
+                  name: target
+                  type: varchar(20)
+  - changeSet:
+      id: 2
+      author: ramil
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+                tableName: storage
+      changes:
+        - createTable:
+            tableName: dishes
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(20)
+              - column:
+                  name: number_of_calories
+                  type: double
+              - column:
+                  name: proteins
+                  type: double
+              - column:
+                  name: fats
+                  type: double
+              - column:
+                  name: carbohydrates
+                  type: double
+              - column:
+                  name: time_add
+                  type: TIMESTAMP
+              - column:
+                  name: user_id
+                  type: bigint
+        - addForeignKeyConstraint:
+            baseTableName: dishes
+            baseColumnNames: user_id
+            constraintName: fk_dishes_user_app
+            referencedTableName: user_app
+            referencedColumnNames: id
+            onDelete: CASCADE

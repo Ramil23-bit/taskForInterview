@@ -1,7 +1,9 @@
 package org.example.entity;
 
 import jakarta.persistence.*;
-import org.example.entity.UserApp;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "dishes")
@@ -20,18 +22,40 @@ public class Dishes {
 
     private Double carbohydrates;
 
+    private LocalDate timeAdd;
     @ManyToOne(fetch = FetchType.EAGER)
-    private UserApp userApp;
+    private UserApp user;
+
 
     public Dishes(Long id, String name, Double numberOfCalories,
-                  Double proteins, Double fats, Double carbohydrates, UserApp userApp) {
+                  Double proteins, Double fats, Double carbohydrates) {
         this.id = id;
         this.name = name;
         this.numberOfCalories = numberOfCalories;
         this.proteins = proteins;
         this.fats = fats;
         this.carbohydrates = carbohydrates;
-        this.userApp = userApp;
+
+    }
+
+    public Dishes(String name, Double numberOfCalories, Double proteins, Double fats, Double carbohydrates) {
+        this.name = name;
+        this.numberOfCalories = numberOfCalories;
+        this.proteins = proteins;
+        this.fats = fats;
+        this.carbohydrates = carbohydrates;
+    }
+
+    public Dishes(Long id, String name, Double numberOfCalories, Double proteins,
+                  Double fats, Double carbohydrates, LocalDate timeAdd, UserApp userApp) {
+        this.id = id;
+        this.name = name;
+        this.numberOfCalories = numberOfCalories;
+        this.proteins = proteins;
+        this.fats = fats;
+        this.carbohydrates = carbohydrates;
+        this.timeAdd = timeAdd;
+        this.user = userApp;
     }
 
     public Dishes() {
@@ -85,12 +109,20 @@ public class Dishes {
         this.carbohydrates = carbohydrates;
     }
 
-    public UserApp getUserApp() {
-        return userApp;
+    public LocalDate getTimeAdd() {
+        return timeAdd;
     }
 
-    public void setUserApp(UserApp userApp) {
-        this.userApp = userApp;
+    public void setTimeAdd(LocalDate timeAdd) {
+        this.timeAdd = timeAdd;
+    }
+
+    public UserApp getUsers() {
+        return user;
+    }
+
+    public void setUsers(UserApp user) {
+        this.user = user;
     }
 
     @Override
@@ -102,6 +134,8 @@ public class Dishes {
                 ", proteins=" + proteins +
                 ", fats=" + fats +
                 ", carbohydrates=" + carbohydrates +
+                ", timeAdd=" + timeAdd +
+                ", user=" + user +
                 '}';
     }
 }

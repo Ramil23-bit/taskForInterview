@@ -2,8 +2,10 @@ package org.example.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import org.example.enums.Gender;
 import org.example.enums.Target;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,10 +18,12 @@ public class UserApp {
     private Long id;
 
     private String name;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
     @Email(message = "Email is not valid")
     private String email;
 
-    private Integer age;
+    private Long age;
 
     private Double weight;
 
@@ -28,12 +32,11 @@ public class UserApp {
     @Enumerated(EnumType.STRING)
     private Target target;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "meal")
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Dishes> dishesList = new ArrayList<>();
 
-    public UserApp(Long id, String name, String email, Integer age,
-                   Double weight, Double height, Target target) {
+    public UserApp(Long id, String name, String email, Long age,
+                   Double weight, Double height, Target target, Gender gender) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -41,9 +44,22 @@ public class UserApp {
         this.weight = weight;
         this.height = height;
         this.target = target;
+        this.gender = gender;
+    }
+
+    public UserApp(String name, String email, Long age, Double weight, Double height,
+                   Target target, Gender gender) {
+        this.name = name;
+        this.email = email;
+        this.age = age;
+        this.weight = weight;
+        this.height = height;
+        this.target = target;
+        this.gender = gender;
     }
 
     public UserApp() {
+
     }
 
     public void setId(Long id) {
@@ -70,11 +86,11 @@ public class UserApp {
         this.email = email;
     }
 
-    public Integer getAge() {
+    public Long getAge() {
         return age;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(Long age) {
         this.age = age;
     }
 
@@ -110,6 +126,16 @@ public class UserApp {
         this.dishesList = dishesList;
     }
 
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+
+
     @Override
     public String toString() {
         return "UserApp{" +
@@ -121,6 +147,7 @@ public class UserApp {
                 ", height=" + height +
                 ", target=" + target +
                 ", dishesList=" + dishesList +
+                ", gender=" + gender +
                 '}';
     }
 }
